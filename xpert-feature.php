@@ -226,10 +226,18 @@ wp_enqueue_style('gavickpro-tc', plugins_url('style.css', __FILE__));
 add_action('admin_head','tinymc_variable');
 function tinymc_variable() {
      global $post;
-   echo '
-        <script type="text/javascript">
-        
-        var custom_id = "'.$post->ID.'";
-        </script>';
-       
+     //global $page;
+ $args = array(
+    'post_type' => 'feature',
+);
+$loop = new WP_Query($args);
+
+while($loop->have_posts()): $loop->the_post();
+
+echo the_title();
+
+endwhile;
+wp_reset_query(); 
+
+  
 }

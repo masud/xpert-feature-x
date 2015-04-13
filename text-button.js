@@ -14,7 +14,7 @@
 											name: 'listboxName',
 											label: 'List Box',
 											'values': [
-												{text: 'Option 1', value: custom_id},
+												{text: custom_page_title, value: custom_id},
 												{text: 'Option 2', value: '2'},
 												{text: 'Option 3', value: '3'}
 											]
