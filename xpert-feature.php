@@ -10,6 +10,9 @@ License: GPLv2 or later
 Text Domain: xf
 */
 
+
+
+
 add_action( 'init', 'xpert_feature_init' );
 /**
  * Register a book post type.
@@ -124,7 +127,7 @@ function feature_placement_shortcode($atts, $content){
 	$args = array(
 			'post_type'	  => 'feature',
 			'layout' 	  => 'center',
-			'id'          => '512',
+			'id'          => '429',
 	
 		);
     $data = shortcode_atts($args, $atts);
@@ -136,8 +139,9 @@ function feature_placement_shortcode($atts, $content){
 		setup_postdata( $post );
 
 	    echo $post->ID;
+        echo '<br>';
 
-	    if($post->ID ){
+	    if($post->ID == $data['id']){
 
 		$call_to_action_title    = get_post_meta( $post->ID, 'tx_title', true );
 		$call_to_action_url      = get_post_meta( $post->ID, 'tx_url', true );
@@ -146,7 +150,7 @@ function feature_placement_shortcode($atts, $content){
 		$xpert_feature_image     = get_the_post_thumbnail($post->ID);
 		$xpert_feature_content   = get_the_content($post->ID);
         
-        
+       
 	
 		$output = '<a href="'.$call_to_action_url.'">'.$call_to_action_title .'</a>';
 
@@ -192,7 +196,20 @@ function gavickpro_register_my_tc_button($buttons) {
 
 
 
+add_action('admin_head','my_add_styles_admin');
+function my_add_styles_admin() {
 
+    global $current_screen;
+    $type = $current_screen->post_type;
+
+    if (is_admin() && $type == 'post' || $type == 'page') {
+        ?>
+        <script type="text/javascript">
+        var post_id = '<?php global $post; echo $post->ID; ?>';
+        </script>
+        <?php
+    }
+}
 
 
 add_action( 'admin_enqueue_scripts', 'FeatureBackendScripts' );
@@ -205,3 +222,14 @@ wp_enqueue_style('gavickpro-tc', plugins_url('style.css', __FILE__));
  
 }
 
+
+add_action('admin_head','tinymc_variable');
+function tinymc_variable() {
+     global $post;
+   echo '
+        <script type="text/javascript">
+        
+        var custom_id = "'.$post->ID.'";
+        </script>';
+       
+}
