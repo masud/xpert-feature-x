@@ -18,9 +18,9 @@ add_action( 'init', 'xpert_feature_init' );
  */
 function xpert_feature_init() {
 	$labels = array(
-		'name'               => _x( 'Features', 'xpert-feature' ),
-		'singular_name'      => _x( 'Feature', 'xpert-feature' ),
-		'menu_name'          => _x( 'Features', 'xpert-feature' ),
+		'name'               => _x( 'TX Features', 'xpert-feature' ),
+		'singular_name'      => _x( 'TX Features', 'xpert-feature' ),
+		'menu_name'          => _x( 'TX Features', 'xpert-feature' ),
 		'name_admin_bar'     => _x( 'Feature', 'xpert-feature' ),
 		'add_new'            => _x( 'Add New', 'feature', 'xpert-feature' ),
 		'add_new_item'       => __( 'Add New Feature', 'xpert-feature' ),
