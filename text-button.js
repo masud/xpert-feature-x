@@ -6,6 +6,7 @@
             onclick: function() {
 								editor.windowManager.open( {
 									title: 'Insert Random Shortcode',
+									value: 'Text from menu item I',
 									body: [
 										
 										{
@@ -13,7 +14,7 @@
 											name: 'listboxName',
 											label: 'List Box',
 											'values': [
-												{text: 'Option 1', value: '+title+'},
+												{text: 'Option 1', value: custom_id},
 												{text: 'Option 2', value: '2'},
 												{text: 'Option 3', value: '3'}
 											]
