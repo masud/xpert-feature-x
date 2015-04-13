@@ -234,10 +234,18 @@ $loop = new WP_Query($args);
 
 while($loop->have_posts()): $loop->the_post();
 
-echo the_title();
+the_title();
+
+ echo '
+        <script type="text/javascript">
+        
+        var custom_id = "'.$post->ID.'";
+        var custom_page_title = "'.the_title().'";
+        </script>';
 
 endwhile;
 wp_reset_query(); 
 
   
+       
 }
