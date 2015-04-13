@@ -137,7 +137,7 @@ function feature_placement_shortcode($atts, $content){
 
 	    echo $post->ID;
 
-	    if($post->ID == $data['id']){
+	    if($post->ID ){
 
 		$call_to_action_title    = get_post_meta( $post->ID, 'tx_title', true );
 		$call_to_action_url      = get_post_meta( $post->ID, 'tx_url', true );
