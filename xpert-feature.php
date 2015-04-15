@@ -146,16 +146,15 @@ function feature_placement_shortcode($atts, $content){
 
         if($post->ID == $data['id']){
 
-        $call_to_action_title    = get_post_meta( $post->ID, 'tx_title', true );
-        $call_to_action_url      = get_post_meta( $post->ID, 'tx_url', true );
-        $call_to_action_position = get_post_meta( $post->ID, 'tx_position', true );
-        $xpert_feature_title     = get_the_title($post->ID);
-        $xpert_feature_image     = get_the_post_thumbnail($post->ID);
-        $xpert_feature_content   = get_the_content($post->ID);
-        
-       
-    
-        $output = '<a href="'.$call_to_action_url.'">'.$call_to_action_title .'</a>';
+
+		$call_to_action_title    = get_post_meta( $post->ID, 'tx_title', true );
+		$call_to_action_url      = get_post_meta( $post->ID, 'tx_url', true );
+		$call_to_action_position = get_post_meta( $post->ID, 'tx_position', true );
+		$xpert_feature_title     = get_the_title($post->ID);
+		$xpert_feature_image     = get_the_post_thumbnail($post->ID);
+		$xpert_feature_content   = get_the_content($post->ID);
+
+		$output = '<a href="'.$call_to_action_url.'">'.$call_to_action_title .'</a>';
 
 
         wp_reset_postdata();
@@ -184,7 +183,7 @@ function gavickpro_add_my_tc_button() {
         add_filter("mce_external_plugins", "gavickpro_add_tinymce_plugin");
         add_filter('mce_buttons', 'gavickpro_register_my_tc_button');
 
-        add_action('media_buttons', 'tx_add_media_button', 15);
+        //add_action('media_buttons', 'tx_add_media_button', 15);
     }
 }
 
@@ -215,26 +214,6 @@ function my_add_styles_admin() {
         <?php
     }
 
-    ?>
-<!-- Modal -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
-      </div>
-      <div class="modal-body">
-        ...
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
-    </div>
-  </div>
-</div>
-    <?php
 }
 
 
@@ -254,3 +233,38 @@ wp_enqueue_style('tx_feature-css', plugins_url('assets/vendor/bootstrap/css/boot
  
 wp_enqueue_style('gavickpro-tc', plugins_url('style.css', __FILE__));
 }
+
+add_action('admin_footer', function(){
+      $query = new WP_Query(array('post_type' => 'feature'));
+      $posts = $query->get_posts();
+
+    ?>
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">Select a feature</h4>
+          </div>
+          <div class="modal-body">
+               <div>
+                   <select id="shotcode_selector">
+                    <?php 
+                       foreach($posts as $post) {
+                       echo '<option value="'.$post->ID.'">'.$post->post_title.'</option>';
+                            }
+                        ?>
+                     
+                  </select>
+               </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Save changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <?php
+});

@@ -8,6 +8,8 @@ i.mce-i-icon {
     margin-left: -2px;
     padding-right: 2px
 }
-#wpb_admin_popup select {
-  display: block!important;
+
+
+select#shotcode_selector {
+	display: block!important;
 }
