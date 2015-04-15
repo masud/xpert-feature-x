@@ -88,7 +88,7 @@ function xpert_feature_init() {
                 <tr>
                     <td class="custom-title"><label for="tx_position"></label></td>
                     <td class="custom-input">
-                        <select id="tx_position" class=" class="image-picker show-html" name="tx_position">
+                        <select id="tx_position" class="image-picker show-html" name="tx_position">
                                   <option data-img-src=" <?php echo plugins_url('assets/image/layoutOne.jpg', __FILE__) ?>" value="layoutOne"<?php if($tx_position == 'layoutOne') echo 'selected="selected"'; ?>></option>
 								  <option data-img-src=" <?php echo plugins_url('assets/image/layoutTwo.jpg', __FILE__) ?>" value="layoutTwo"<?php if($tx_position == 'layoutTwo') echo 'selected="selected"'; ?>></option>
 								  <option data-img-src=" <?php echo plugins_url('assets/image/layoutThree.jpg', __FILE__) ?>" value="layoutThree"<?php if($tx_position == 'layoutThree') echo 'selected="selected"'; ?>></option>
@@ -137,6 +137,7 @@ function feature_placement_shortcode($atts, $content){
 
 	foreach ($feature as $post) {
 		setup_postdata( $post );
+        $okey = $post->ID;
 
 	    echo $post->ID;
         echo '<br>';
@@ -180,6 +181,7 @@ function gavickpro_add_my_tc_button() {
     if ( get_user_option('rich_editing') == 'true') {
         add_filter("mce_external_plugins", "gavickpro_add_tinymce_plugin");
         add_filter('mce_buttons', 'gavickpro_register_my_tc_button');
+        // add_action('media_buttons', 'wpb_add_media_button', 15);
     }
 }
 
@@ -209,43 +211,40 @@ function my_add_styles_admin() {
         </script>
         <?php
     }
+
+    ?>
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+    <?php
 }
 
 
 add_action( 'admin_enqueue_scripts', 'FeatureBackendScripts' );
+
 function FeatureBackendScripts(){
  
 wp_enqueue_script('image-picker-js', plugins_url('assets/vendor/image-picker/js/image-picker.min.js',__FILE__));
 wp_enqueue_script('xpert-picker-app-js', plugins_url('assets/js/app.js',__FILE__));
 wp_enqueue_style('image-picker-css', plugins_url('assets/vendor/image-picker/css/image-picker.css', __FILE__));
-wp_enqueue_style('gavickpro-tc', plugins_url('style.css', __FILE__));
+
+wp_enqueue_script('tx_bootstrap_feature-js', plugins_url('assets/vendor/bootstrap/js/bootstrap.min.js',__FILE__));
+wp_enqueue_style('tx_feature-css', plugins_url('assets/vendor/bootstrap/css/bootstrap.min.css',__FILE__));
  
-}
-
-
-add_action('admin_head','tinymc_variable');
-function tinymc_variable() {
-     global $post;
-     //global $page;
- $args = array(
-    'post_type' => 'feature',
-);
-$loop = new WP_Query($args);
-
-while($loop->have_posts()): $loop->the_post();
-
-the_title();
-
- echo '
-        <script type="text/javascript">
-        
-        var custom_id = "'.$post->ID.'";
-        var custom_page_title = "'.the_title().'";
-        </script>';
-
-endwhile;
-wp_reset_query(); 
-
-  
-       
+wp_enqueue_style('gavickpro-tc', plugins_url('style.css', __FILE__));
 }
