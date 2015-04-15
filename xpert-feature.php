@@ -184,8 +184,7 @@ function gavickpro_add_my_tc_button() {
         add_filter("mce_external_plugins", "gavickpro_add_tinymce_plugin");
         add_filter('mce_buttons', 'gavickpro_register_my_tc_button');
 
-        // add_action('media_buttons', 'wpb_add_media_button', 15);
-
+        add_action('media_buttons', 'tx_add_media_button', 15);
     }
 }
 
@@ -237,7 +236,6 @@ function my_add_styles_admin() {
 </div>
     <?php
 }
-
 
 
 
