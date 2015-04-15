@@ -63,8 +63,8 @@ function xpert_feature_init() {
 
         function tx_settings($post) {
             $id = $post->ID;
-            $tx_title        = get_post_meta($id, 'tx_title', true);
-            $tx_url         = get_post_meta($id, 'tx_url', true);
+            $tx_title         = get_post_meta($id, 'tx_title', true);
+            $tx_url           = get_post_meta($id, 'tx_url', true);
             $tx_position      = get_post_meta($id, 'tx_position', true);
 
             ?>
@@ -127,7 +127,7 @@ function feature_placement_shortcode($atts, $content){
     $args = array(
             'post_type'   => 'feature',
             'layout'      => 'center',
-            'id'          => '429',
+            'post_id'     => '',
     
         );
     $data = shortcode_atts($args, $atts);
@@ -135,26 +135,20 @@ function feature_placement_shortcode($atts, $content){
 
     $feature =  get_posts($args);
 
-
-	foreach ($feature as $post) {
-		setup_postdata( $post );
-
+    foreach ($feature as $post) {
+        setup_postdata( $post );
         $okey = $post->ID;
 
-        echo $post->ID;
-        echo '<br>';
+        if($post->ID == $data['post_id']){
 
-        if($post->ID == $data['id']){
+        $call_to_action_title    = get_post_meta( $post->ID, 'tx_title', true );
+        $call_to_action_url      = get_post_meta( $post->ID, 'tx_url', true );
+        $call_to_action_position = get_post_meta( $post->ID, 'tx_position', true );
+        $xpert_feature_title     = get_the_title($post->ID);
+        $xpert_feature_image     = get_the_post_thumbnail($post->ID);
+        $xpert_feature_content   = get_the_content($post->ID);
 
-
-		$call_to_action_title    = get_post_meta( $post->ID, 'tx_title', true );
-		$call_to_action_url      = get_post_meta( $post->ID, 'tx_url', true );
-		$call_to_action_position = get_post_meta( $post->ID, 'tx_position', true );
-		$xpert_feature_title     = get_the_title($post->ID);
-		$xpert_feature_image     = get_the_post_thumbnail($post->ID);
-		$xpert_feature_content   = get_the_content($post->ID);
-
-		$output = '<a href="'.$call_to_action_url.'">'.$call_to_action_title .'</a>';
+        $output = '<a href="'.$call_to_action_url.'">'.$call_to_action_title .'</a>';
 
 
         wp_reset_postdata();
@@ -166,35 +160,34 @@ function feature_placement_shortcode($atts, $content){
 
 //////////// Tinymce Buttion Load ///////////////
 
-add_action('admin_head', 'gavickpro_add_my_tc_button');
+add_action('admin_head', 'tx_add_my_tc_button');
 
 
-function gavickpro_add_my_tc_button() {
+function tx_add_my_tc_button() {
     global $typenow;
     // check user permissions
     if ( !current_user_can('edit_posts') && !current_user_can('edit_pages') ) {
     return;
     }
     // verify the post type
-    if( ! in_array( $typenow, array( 'post', 'page' ) ) )
+    if( ! in_array( $typenow, array( 'page' ) ) )
         return;
     // check if WYSIWYG is enabled
     if ( get_user_option('rich_editing') == 'true') {
-        add_filter("mce_external_plugins", "gavickpro_add_tinymce_plugin");
-        add_filter('mce_buttons', 'gavickpro_register_my_tc_button');
-
-        //add_action('media_buttons', 'tx_add_media_button', 15);
+        add_filter("mce_external_plugins", "tx_add_tinymce_plugin");
+        add_filter('mce_buttons', 'tx_register_my_tc_button');
+        // add_action('media_buttons', 'wpb_add_media_button', 15);
     }
 }
 
 
-function gavickpro_add_tinymce_plugin($plugin_array) {
-    $plugin_array['gavickpro_tc_button'] = plugins_url( '/text-button.js', __FILE__ ); // CHANGE THE BUTTON SCRIPT HERE
+function tx_add_tinymce_plugin($plugin_array) {
+    $plugin_array['tx_tc_button'] = plugins_url( '/text-button.js', __FILE__ ); // CHANGE THE BUTTON SCRIPT HERE
     return $plugin_array;
 }
 
-function gavickpro_register_my_tc_button($buttons) {
-   array_push($buttons, "gavickpro_tc_button");
+function tx_register_my_tc_button($buttons) {
+   array_push($buttons, "tx_tc_button");
    return $buttons;
 }
 
@@ -217,10 +210,6 @@ function my_add_styles_admin() {
 }
 
 
-
-
-
-
 add_action( 'admin_enqueue_scripts', 'FeatureBackendScripts' );
 
 function FeatureBackendScripts(){
@@ -228,43 +217,46 @@ function FeatureBackendScripts(){
 wp_enqueue_script('image-picker-js', plugins_url('assets/vendor/image-picker/js/image-picker.min.js',__FILE__));
 wp_enqueue_script('xpert-picker-app-js', plugins_url('assets/js/app.js',__FILE__));
 wp_enqueue_style('image-picker-css', plugins_url('assets/vendor/image-picker/css/image-picker.css', __FILE__));
+
 wp_enqueue_script('tx_bootstrap_feature-js', plugins_url('assets/vendor/bootstrap/js/bootstrap.min.js',__FILE__));
 wp_enqueue_style('tx_feature-css', plugins_url('assets/vendor/bootstrap/css/bootstrap.min.css',__FILE__));
  
-wp_enqueue_style('gavickpro-tc', plugins_url('style.css', __FILE__));
+wp_enqueue_style('tx-tc', plugins_url('style.css', __FILE__));
 }
 
 add_action('admin_footer', function(){
       $query = new WP_Query(array('post_type' => 'feature'));
       $posts = $query->get_posts();
-
     ?>
-    <!-- Modal -->
-    <div class="modal fade" id="myModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title" id="myModalLabel">Select a feature</h4>
-          </div>
-          <div class="modal-body">
-               <div>
-                   <select id="shotcode_selector">
-                    <?php 
-                       foreach($posts as $post) {
-                       echo '<option value="'.$post->ID.'">'.$post->post_title.'</option>';
-                            }
-                        ?>
-                     
-                  </select>
-               </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Save changes</button>
+ 
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="tx_modal_title">Xpert Feature Shortcode</h4>
+              </div>
+              <div class="modal-body">
+                <form>
+                  <div class="form-group">
+                    <label for="select-post" class="control-label">Select a Post:</label>
+                    <select id="shotcode_selector" class="form-control tx-feature-value">
+                       <option value="">Select Your feature post</option>';
+                         <?php 
+                               foreach($posts as $post) {
+                               echo '<option value="'.$post->ID.'">'.$post->post_title.'</option>';
+                                }
+                         ?>
+                    </select>
+                  </div>
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary action-insert-shortcode">Enter Shortcode</button>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
-    <?php
-});
+            <?php
+        });
