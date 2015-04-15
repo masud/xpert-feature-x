@@ -1,33 +1,17 @@
-(function() {
+(function($) {
     tinymce.PluginManager.add('gavickpro_tc_button', function( editor, url ) {
         editor.addButton( 'gavickpro_tc_button', {
             title: 'My test button',
             icon: 'icon dashicons-wordpress-alt',
+            id: 'wpb-editor-btn',
             onclick: function() {
-								editor.windowManager.open( {
-									title: 'Insert Random Shortcode',
-									value: 'Text from menu item I',
-									body: [
-										
-										{
-											type: 'listbox',
-											name: 'listboxName',
-											label: 'List Box',
-											'values': [
-												{text: custom_page_title, value: custom_id},
-												{text: 'Option 2', value: '2'},
-												{text: 'Option 3', value: '3'}
-											]
-										}
-									],
-									onsubmit: function( e ) {
-										editor.insertContent( '[random_shortcode listbox="' + e.data.listboxName + '"]');
-									}
-								});
-							}
+            	$('#myModal').modal({
+            		show: true
+            	});
+			}
         });
     });
-})();
+})(jQuery);
 /*(function() {
 	tinymce.PluginManager.add('gavickpro_tc_button', function( editor, url ) {
 		editor.addButton( 'gavickpro_tc_button', {

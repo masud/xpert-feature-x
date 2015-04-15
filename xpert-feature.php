@@ -20,39 +20,39 @@ add_action( 'init', 'xpert_feature_init' );
  * @link http://codex.wordpress.org/Function_Reference/register_post_type
  */
 function xpert_feature_init() {
-	$labels = array(
-		'name'               => _x( 'TX Features', 'xpert-feature' ),
-		'singular_name'      => _x( 'TX Features', 'xpert-feature' ),
-		'menu_name'          => _x( 'TX Features', 'xpert-feature' ),
-		'name_admin_bar'     => _x( 'Feature', 'xpert-feature' ),
-		'add_new'            => _x( 'Add New', 'feature', 'xpert-feature' ),
-		'add_new_item'       => __( 'Add New Feature', 'xpert-feature' ),
-		'new_item'           => __( 'New Feature', 'xpert-feature' ),
-		'edit_item'          => __( 'Edit Feature', 'xpert-feature' ),
-		'view_item'          => __( 'View Feature', 'xpert-feature' ),
-		'all_items'          => __( 'Edit Features', 'xpert-feature' ),
-		'search_items'       => __( 'Search Features', 'xpert-feature' ),
-		'parent_item_colon'  => __( 'Parent Features:', 'xpert-feature' ),
-		'not_found'          => __( 'No features found.', 'xpert-feature' ),
-		'not_found_in_trash' => __( 'No features found in Trash.', 'xpert-feature' )
-	);
+    $labels = array(
+        'name'               => _x( 'TX Features', 'xpert-feature' ),
+        'singular_name'      => _x( 'TX Features', 'xpert-feature' ),
+        'menu_name'          => _x( 'TX Features', 'xpert-feature' ),
+        'name_admin_bar'     => _x( 'Feature', 'xpert-feature' ),
+        'add_new'            => _x( 'Add New', 'feature', 'xpert-feature' ),
+        'add_new_item'       => __( 'Add New Feature', 'xpert-feature' ),
+        'new_item'           => __( 'New Feature', 'xpert-feature' ),
+        'edit_item'          => __( 'Edit Feature', 'xpert-feature' ),
+        'view_item'          => __( 'View Feature', 'xpert-feature' ),
+        'all_items'          => __( 'Edit Features', 'xpert-feature' ),
+        'search_items'       => __( 'Search Features', 'xpert-feature' ),
+        'parent_item_colon'  => __( 'Parent Features:', 'xpert-feature' ),
+        'not_found'          => __( 'No features found.', 'xpert-feature' ),
+        'not_found_in_trash' => __( 'No features found in Trash.', 'xpert-feature' )
+    );
 
-	$args = array(
-		'labels'             => $labels,
-		'public'             => true,
-		'publicly_queryable' => true,
-		'show_ui'            => true,
-		'show_in_menu'       => true,
-		'query_var'          => true,
-		'rewrite'            => array( 'slug' => 'feature' ),
-		'capability_type'    => 'post',
-		'has_archive'        => true,
-		'hierarchical'       => false,
-		'menu_position'      => null,
-		'supports'           => array( 'title', 'editor','thumbnail' )
-	);
+    $args = array(
+        'labels'             => $labels,
+        'public'             => true,
+        'publicly_queryable' => true,
+        'show_ui'            => true,
+        'show_in_menu'       => true,
+        'query_var'          => true,
+        'rewrite'            => array( 'slug' => 'feature' ),
+        'capability_type'    => 'post',
+        'has_archive'        => true,
+        'hierarchical'       => false,
+        'menu_position'      => null,
+        'supports'           => array( 'title', 'editor','thumbnail' )
+    );
 
-	register_post_type( 'feature', $args );
+    register_post_type( 'feature', $args );
 }
 
 
@@ -88,11 +88,11 @@ function xpert_feature_init() {
                 <tr>
                     <td class="custom-title"><label for="tx_position"></label></td>
                     <td class="custom-input">
-                        <select id="tx_position" class=" class="image-picker show-html" name="tx_position">
+                        <select id="tx_position" class="image-picker show-html" name="tx_position">
                                   <option data-img-src=" <?php echo plugins_url('assets/image/layoutOne.jpg', __FILE__) ?>" value="layoutOne"<?php if($tx_position == 'layoutOne') echo 'selected="selected"'; ?>></option>
-								  <option data-img-src=" <?php echo plugins_url('assets/image/layoutTwo.jpg', __FILE__) ?>" value="layoutTwo"<?php if($tx_position == 'layoutTwo') echo 'selected="selected"'; ?>></option>
-								  <option data-img-src=" <?php echo plugins_url('assets/image/layoutThree.jpg', __FILE__) ?>" value="layoutThree"<?php if($tx_position == 'layoutThree') echo 'selected="selected"'; ?>></option>
-								  <option data-img-src=" <?php echo plugins_url('assets/image/layoutFour.jpg', __FILE__) ?>" value="layoutFour"<?php if($tx_position == 'layoutFour') echo 'selected="selected"'; ?>></option>                 
+                                  <option data-img-src=" <?php echo plugins_url('assets/image/layoutTwo.jpg', __FILE__) ?>" value="layoutTwo"<?php if($tx_position == 'layoutTwo') echo 'selected="selected"'; ?>></option>
+                                  <option data-img-src=" <?php echo plugins_url('assets/image/layoutThree.jpg', __FILE__) ?>" value="layoutThree"<?php if($tx_position == 'layoutThree') echo 'selected="selected"'; ?>></option>
+                                  <option data-img-src=" <?php echo plugins_url('assets/image/layoutFour.jpg', __FILE__) ?>" value="layoutFour"<?php if($tx_position == 'layoutFour') echo 'selected="selected"'; ?>></option>                 
                         </select>
                     </td>
                 </tr>
@@ -124,42 +124,43 @@ add_shortcode('xpert-feature','feature_placement_shortcode');
 
 function feature_placement_shortcode($atts, $content){
     
-	$args = array(
-			'post_type'	  => 'feature',
-			'layout' 	  => 'center',
-			'id'          => '429',
-	
-		);
+    $args = array(
+            'post_type'   => 'feature',
+            'layout'      => 'center',
+            'id'          => '429',
+    
+        );
     $data = shortcode_atts($args, $atts);
    // echo $data['id'];
 
-	$feature =  get_posts($args);
+    $feature =  get_posts($args);
 
-	foreach ($feature as $post) {
-		setup_postdata( $post );
+    foreach ($feature as $post) {
+        setup_postdata( $post );
+        $okey = $post->ID;
 
-	    echo $post->ID;
+        echo $post->ID;
         echo '<br>';
 
-	    if($post->ID == $data['id']){
+        if($post->ID == $data['id']){
 
-		$call_to_action_title    = get_post_meta( $post->ID, 'tx_title', true );
-		$call_to_action_url      = get_post_meta( $post->ID, 'tx_url', true );
-		$call_to_action_position = get_post_meta( $post->ID, 'tx_position', true );
-		$xpert_feature_title     = get_the_title($post->ID);
-		$xpert_feature_image     = get_the_post_thumbnail($post->ID);
-		$xpert_feature_content   = get_the_content($post->ID);
+        $call_to_action_title    = get_post_meta( $post->ID, 'tx_title', true );
+        $call_to_action_url      = get_post_meta( $post->ID, 'tx_url', true );
+        $call_to_action_position = get_post_meta( $post->ID, 'tx_position', true );
+        $xpert_feature_title     = get_the_title($post->ID);
+        $xpert_feature_image     = get_the_post_thumbnail($post->ID);
+        $xpert_feature_content   = get_the_content($post->ID);
         
        
-	
-		$output = '<a href="'.$call_to_action_url.'">'.$call_to_action_title .'</a>';
+    
+        $output = '<a href="'.$call_to_action_url.'">'.$call_to_action_title .'</a>';
 
 
-		wp_reset_postdata();
-	    	return $output;
-	    }
+        wp_reset_postdata();
+            return $output;
+        }
 
-	}
+    }
 }
 
 //////////// Tinymce Buttion Load ///////////////
@@ -180,6 +181,7 @@ function gavickpro_add_my_tc_button() {
     if ( get_user_option('rich_editing') == 'true') {
         add_filter("mce_external_plugins", "gavickpro_add_tinymce_plugin");
         add_filter('mce_buttons', 'gavickpro_register_my_tc_button');
+        add_action('media_buttons', 'tx_add_media_button', 15);
     }
 }
 
@@ -209,43 +211,83 @@ function my_add_styles_admin() {
         </script>
         <?php
     }
+
+    ?>
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+    <?php
 }
 
 
+function tx_add_media_button(){
+    $query = new WP_Query(array('post_type' => 'page'));
+    $posts = $query->get_posts();
+    ?>
+    <div id="wpb_admin_popup">
+        <div class="wpb_plan_field">
+        <h4 class="wpb_plan_heading"><?php _e( 'Features Dropdown','advance-pricing-table' ); ?></h4>
+        <div class="wpb_field">
+        <select class="regular" name="wpb_select" id="wpb_select">
+            <?php 
+                foreach($posts as $post) {
+                    echo '<option value="'.$post->ID.'">'.$post->post_title.'</option>';
+                }
+            ?>
+        </select>
+        </div>
+        </div><!-- Pricing Table Theme -->
+    </div>  
+
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+    <?php
+}
+
+
+
+
+
 add_action( 'admin_enqueue_scripts', 'FeatureBackendScripts' );
+
 function FeatureBackendScripts(){
  
 wp_enqueue_script('image-picker-js', plugins_url('assets/vendor/image-picker/js/image-picker.min.js',__FILE__));
 wp_enqueue_script('xpert-picker-app-js', plugins_url('assets/js/app.js',__FILE__));
 wp_enqueue_style('image-picker-css', plugins_url('assets/vendor/image-picker/css/image-picker.css', __FILE__));
-wp_enqueue_style('gavickpro-tc', plugins_url('style.css', __FILE__));
+
+wp_enqueue_script('tx_bootstrap_feature-js', plugins_url('assets/vendor/bootstrap/js/bootstrap.min.js',__FILE__));
+wp_enqueue_style('tx_feature-css', plugins_url('assets/vendor/bootstrap/css/bootstrap.min.css',__FILE__));
  
-}
-
-
-add_action('admin_head','tinymc_variable');
-function tinymc_variable() {
-     global $post;
-     //global $page;
- $args = array(
-    'post_type' => 'feature',
-);
-$loop = new WP_Query($args);
-
-while($loop->have_posts()): $loop->the_post();
-
-the_title();
-
- echo '
-        <script type="text/javascript">
-        
-        var custom_id = "'.$post->ID.'";
-        var custom_page_title = "'.the_title().'";
-        </script>';
-
-endwhile;
-wp_reset_query(); 
-
-  
-       
+wp_enqueue_style('gavickpro-tc', plugins_url('style.css', __FILE__));
 }
