@@ -181,7 +181,7 @@ function gavickpro_add_my_tc_button() {
     if ( get_user_option('rich_editing') == 'true') {
         add_filter("mce_external_plugins", "gavickpro_add_tinymce_plugin");
         add_filter('mce_buttons', 'gavickpro_register_my_tc_button');
-        // add_action('media_buttons', 'wpb_add_media_button', 15);
+        add_action('media_buttons', 'tx_add_media_button', 15);
     }
 }
 
@@ -233,6 +233,49 @@ function my_add_styles_admin() {
 </div>
     <?php
 }
+
+
+function tx_add_media_button(){
+    $query = new WP_Query(array('post_type' => 'page'));
+    $posts = $query->get_posts();
+    ?>
+    <div id="wpb_admin_popup">
+        <div class="wpb_plan_field">
+        <h4 class="wpb_plan_heading"><?php _e( 'Features Dropdown','advance-pricing-table' ); ?></h4>
+        <div class="wpb_field">
+        <select class="regular" name="wpb_select" id="wpb_select">
+            <?php 
+                foreach($posts as $post) {
+                    echo '<option value="'.$post->ID.'">'.$post->post_title.'</option>';
+                }
+            ?>
+        </select>
+        </div>
+        </div><!-- Pricing Table Theme -->
+    </div>  
+
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+    <?php
+}
+
+
+
 
 
 add_action( 'admin_enqueue_scripts', 'FeatureBackendScripts' );
