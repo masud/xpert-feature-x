@@ -13,3 +13,11 @@ i.mce-i-icon {
 select#shotcode_selector {
 	display: block!important;
 }
+
+select#page_id {
+  display: block!important;
+}
+
+.btn-group{
+    margin-left: 27%;
+}

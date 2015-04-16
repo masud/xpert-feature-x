@@ -64,6 +64,7 @@ function xpert_feature_init() {
             $tx_title         = get_post_meta($id, 'tx_title', true);
             $tx_url           = get_post_meta($id, 'tx_url', true);
             $tx_position      = get_post_meta($id, 'tx_position', true);
+            $page_id          = get_post_meta($id, 'page_id', true);
 
             ?>
             <style>
@@ -77,12 +78,31 @@ function xpert_feature_init() {
                         <input type="text" class="widefat" id="tx_title" name="tx_title" value="<?php echo esc_attr($tx_title); ?>"/>
                     </td>
                 </tr>
+              
+
+            <div class="input-prepend">
+                  <label for="page_id">URL</label>
+                  <div class="btn-group">              
+                    <select name="page_id" id="page_id">
+                              <option value="http//:" <?php selected( $page_id, 'http//:' ); ?>>http//:</option>
+                              <option value="https//:" <?php selected( $page_id, 'https//:' ); ?>>https//:</option>
+                              
+                            </select>
+                  </div>
+                  <input  name="tx_url" id="tx_url" value="<?php echo esc_attr($tx_url); ?>" type="text">
+                </div>
+                
+               
+               
+                <!-- 
                 <tr>
                     <td class="custom-title"><label for="tx_url">Call To Action URL</label></td>
                     <td class="custom-input">
                         <input type="text" class="widefat" id="tx_url" name="tx_url" value="<?php echo esc_attr($tx_url); ?>"/>
                     </td>
-                </tr>
+                </tr> -->
+
+
                 <tr>
                     <td class="custom-title"><label for="tx_position"></label></td>
                     <td class="custom-input">
@@ -108,6 +128,8 @@ function xpert_feature_init() {
                 update_post_meta($id, 'tx_url', $_POST['tx_url']) || add_post_meta($id, 'tx_url', $_POST['tx_url']);
             if(!empty($_POST['tx_position']))
                 update_post_meta($id, 'tx_position', $_POST['tx_position']) || add_post_meta($id, 'tx_position', $_POST['tx_position']);
+            if(!empty($_POST['page_id']))
+                update_post_meta($id, 'page_id', $_POST['page_id']) || add_post_meta($id, 'page_id', $_POST['page_id']);
         }
 
 
@@ -143,6 +165,7 @@ function feature_placement_shortcode($atts, $content){
 
         $call_to_action_title    = get_post_meta( $post->ID, 'tx_title', true );
         $call_to_action_url      = get_post_meta( $post->ID, 'tx_url', true );
+        $call_to_action_http     = get_post_meta( $post->ID, 'page_id', true );
         $call_to_action_position = get_post_meta( $post->ID, 'tx_position', true );
         $xpert_feature_title     = get_the_title($post->ID);
         $xpert_feature_image     = get_the_post_thumbnail($post->ID);
@@ -165,14 +188,14 @@ function feature_placement_shortcode($atts, $content){
                             </div>
                             <div class="col-md-6">
                                 <div class="feature-content">
-                                    <h1 class="wow fadeInLeft section-title" data-wow-duration="300ms" data-wow-delay="100ms"><a href="'.$call_to_action_url.'">'.$call_to_action_title.'</a></h1>
+                                    <h1 class="wow fadeInLeft section-title" data-wow-duration="300ms" data-wow-delay="100ms"><a href="'.$call_to_action_http.''.$call_to_action_url.'">'.$call_to_action_title.'</a></h1>
                                     
                                     <p class="wow fadeInLeft" data-wow-duration="500ms" data-wow-delay="300ms">
                                        '.$call_to_action_title.'
                                     </p>
                                      
 
-                                <a data-wow-duration="800ms" data-wow-delay="800ms" href="'.$call_to_action_url.'" class="btn btn-default btn-download wow fadeInUp"><i class="ion-ios-download-outline"></i> Download Now</a>
+                                <a data-wow-duration="800ms" data-wow-delay="800ms" href="'.$call_to_action_http.''.$call_to_action_url.'" class="btn btn-default btn-download wow fadeInUp"><i class="ion-ios-download-outline"></i> Download Now</a>
                                 </div>
                             </div>
                         </div>
@@ -195,7 +218,7 @@ function feature_placement_shortcode($atts, $content){
                                                     </div>
                                                 </div>                                             
                                             </div>
-                                            <a data-wow-duration="800ms" data-wow-delay="800ms" href="'.$call_to_action_url.'" class="btn btn-default btn-download wow fadeInUp"><i class="ion-ios-download-outline"></i> Download Now</a>
+                                            <a data-wow-duration="800ms" data-wow-delay="800ms" href="'.$call_to_action_http.''.$call_to_action_url.'" class="btn btn-default btn-download wow fadeInUp"><i class="ion-ios-download-outline"></i> Download Now</a>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -329,7 +352,7 @@ add_action( 'admin_enqueue_scripts', 'FeatureBackendScripts' );
 function FeatureBackendScripts(){
  
 wp_enqueue_script('image-picker-js', plugins_url('assets/vendor/image-picker/js/image-picker.min.js',__FILE__));
-wp_enqueue_script('xpert-picker-app-js', plugins_url('assets/js/app.min.js',__FILE__));
+wp_enqueue_script('xpert-picker-app-js', plugins_url('assets/js/app.js',__FILE__));
 wp_enqueue_style('image-picker-css', plugins_url('assets/vendor/image-picker/css/image-picker.css', __FILE__));
 
 wp_enqueue_script('tx_bootstrap_feature-modal-js', plugins_url('assets/vendor/bootstrap/js/modal.js',__FILE__));
